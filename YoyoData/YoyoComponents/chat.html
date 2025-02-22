@@ -1,0 +1,24 @@
+<div class="chat"> 
+  <h3>Chat Feed </h3>
+  <ul yo-yoBind = "let messages = [];
+      let messageList = chatMessages;
+
+      for(let i = 0; i < messageList.length; i++)
+          {      
+          let message = messageList[i];
+          messages.push(message ?  '<li>['+ message.Sender + ']: ' + message.Text  +'</li>' : '<li>&nbsp;</li>' );
+          }
+        return(messages.join(''));">
+  </ul>
+  <div>
+    <input yo-onChange ="outGoingChat" />
+    <button yo-onclick="@if(this.state.outGoingChat)
+                          {
+                          this.state.socketWriter.SendChatMessage(this.state.outGoingChat);
+                          this.UpdateState('outGoingChat','');
+                          }">
+      Send Chat 
+    </button>  
+  </div>
+</div>
+

@@ -1,0 +1,100 @@
+<div class="home"> 
+  <h2>Data Editor</h2>
+
+  <p>
+    Editor :
+    <select yo-onChange="dataEditorOption" name="option">
+      <option value = "faction"> Factions </option>
+      <option value = "units"> Units </option>
+      <option value = "dice"> Dice </option>
+    </select>
+  </p>
+
+  <div  yo-if="dataEditorOption == 'faction'}}">
+    <h3> Faction Editor </h3>
+    <label>Load Existing Faction</label> 
+    <select
+      yo-onChange="factionEdit.Uid"
+      yo-yoBind = "let factions = [];
+          let factionList = dataEntries.factionData.factions;
+
+          factions.push('<option value=null> - Create New - </option>');
+          for(let i = 0; i < factionList.length; i++)
+            {
+            let faction = factionList[i];
+            factions.push(faction ? '<option value=' + faction.Uid + ' >' + 
+              faction.Name + '</option>' : ''  );
+            }
+          return(factions.join('') || '');">
+    </select>
+    <button> Delete </button>
+    <hr> 
+    <label>Faction UID:</label>
+    <input yo-onChange ="factionEdit.Uid" type="text" disabled>
+
+    <label>Faction Name:</label>
+    <input yo-onChange ="factionEdit.Name" type="text">
+
+    <p>
+      <label>Recruitable Units</label>
+      <select yo-yoBind = "let units = [];
+          let unitList = [...dataEntries.units];
+
+          units.push('<option value=null> - Create New - </option>');
+          for(let i = 0; i < unitList.length; i++)
+            {
+            let unit = unitList[i];
+            units.push(unit ? '<option>test</option>' : ''  );
+            }
+          return(units.join('') || '');"        ">
+      </select>
+
+      <button> Add </button>
+    </p>
+    <p>
+    <hr>
+      <button yo-onClick="UpsertFaction" type="submit">
+        Save
+      </button>
+    </p>
+  </div>
+
+  <div yo-if="{{dataEditorOption == 'units'}}">
+    <h3> Unit Editor </h3>
+
+    <label>Load Existing Unit</label>
+    <select yo-yoBind = "let units = [];
+          let unitList = dataEntries.units;
+
+          for(let i = 0; i < unitList.length; i++)
+            {
+            let unit = unitList[i];
+            units.push(unit ? '<option>test</option>' : ''  );
+            }
+          return(units.join('') || '');"        ">
+      </select>
+    <hr>
+
+    <label>Unit UID:</label>
+    <input yo-onChange ="unitEdit.Uid" type="text" disabled>
+
+    <label>Unit Name:</label>
+    <input yo-onChange ="unitEdit.Name" type="text">
+
+    <hr>
+    <p>
+      <button yo-onClick="console.log(factionEdit);" type="submit">
+        Save
+      </button>
+    </p>
+  </div>
+
+  <div yo-if="{{dataEditorOption == 'dice'}}">
+    Dice  
+    <p>
+      <button yo-onClick="console.log(factionEdit);" type="submit">
+        Save
+      </button>
+    </p>
+  </div>
+</div>

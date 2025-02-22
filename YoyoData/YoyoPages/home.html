@@ -1,0 +1,25 @@
+<div>
+  <div class="home"> 
+    <h2> {{serverName}} Details </h2>
+    <h3> ClientId : </h3> <p>{{clientUid}} </p>
+    <h3> Players online : {{playerList.length}} </h3>
+      <ol yo-yoBind= "
+        let players = [];
+        for(let i = 0; i < playerList.length; i++)
+          {      
+          let player = playerList[i];
+          players.push('<li>['+ player.ClientName + ']: ' + player.ConnectionStatus  +'</li>');
+          }
+          return(players.length > 0 ? players.join('') : 'No Players In Lobby' )">
+      </ol>
+      <h3> Current Games: </h3>
+      <ol yo-yoBind= "
+        let games = [];
+        for(let i = 0; i < gameList.length; i++)
+          {      
+          let game = gameList[i];
+          games.push('<li>['+ game.SessionId + ']: ' + game.ClientName  +'</li>');
+          }
+          return(games.length > 0 ? games.join('') : 'No Active Games' )">
+      </ol>
+  </div>

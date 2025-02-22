@@ -1,0 +1,106 @@
+:root {
+  --primaryBackground: #eee;
+  --chatBackground: #888;
+  --cardBackground: #aaa;
+
+  --headerBackgroundFont: #f1f1f1;
+  --headerBackground : #555;
+
+  --chatTerminal: #222;
+  --chatTerminalContents : #0e0;
+}
+
+h1
+  {
+  text-align : center;
+  }
+
+body
+  {
+  margin : 0px;
+  padding : 0px;
+  background: var(--primaryBackground);
+  }
+
+.home
+  {
+  background: var(--cardBackground);
+  margin :2em;
+  padding: 1em;
+  border-radius: .5em;
+  }
+
+.home h2
+  {
+  text-align:center;
+  }
+
+.chat
+  {
+  background: var(--cardBackground);
+  border-radius: 1em;
+  padding: 1em;
+  margin :2em;
+  valign="bottom"
+  }
+
+.chat ul
+  {
+  list-style-type: none;
+  background: var(--chatTerminal); 
+  color: var(--chatTerminalContents);
+  border-radius: .5em;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+.chat ul li
+  {
+  display: list-item;
+  }
+
+.header a:link, a:visited
+  {
+  color: white;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  }
+
+.header a:hover
+  {
+  color : #aaa
+  }
+
+
+.chat input
+  {
+  width:75%
+  }
+
+.header 
+  {
+  position: sticky;
+  top: 0;
+  padding: 10px 16px;
+  background: var(--headerBackground);
+  color: var(--headerBackgroundFont);
+  }
+
+.optionList
+  {
+  list-style-type: none;
+  display: flex;
+  }
+
+.optionList li
+  {
+  margin : .5em;
+  }
+
+input, select, button
+  {
+  min-height : 1.75em;
+  border-radius: .5em;
+  }

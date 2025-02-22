@@ -14,7 +14,7 @@
     <h3> Faction Editor </h3>
     <label>Load Existing Faction</label> 
     <select
-      yo-onChange="factionEdit.Uid"
+      yo-onChange="dataEntries.factionData.selectedFaction.Uid"
       yo-yoBind = "let factions = [];
           let factionList = dataEntries.factionData.factions;
 
@@ -27,26 +27,25 @@
             }
           return(factions.join('') || '');">
     </select>
-    <button> Delete </button>
+    <button yo-onClick="DeleteFaction"> Delete </button>
     <hr> 
     <label>Faction UID:</label>
-    <input yo-onChange ="factionEdit.Uid" type="text" disabled>
+    <input yo-onChange ="dataEntries.factionData.selectedFaction.Uid" type="text" disabled>
 
     <label>Faction Name:</label>
-    <input yo-onChange ="factionEdit.Name" type="text">
+    <input yo-onChange ="dataEntries.factionData.selectedFaction.Name" type="text">
 
     <p>
       <label>Recruitable Units</label>
       <select yo-yoBind = "let units = [];
           let unitList = [...dataEntries.units];
 
-          units.push('<option value=null> - Create New - </option>');
           for(let i = 0; i < unitList.length; i++)
             {
             let unit = unitList[i];
-            units.push(unit ? '<option>test</option>' : ''  );
+            units.push(unit ? '<option value='+ unitList[i].Uid +'>'+ unitList[i].Name +'</option>' : ''  );
             }
-          return(units.join('') || '');"        ">
+          return(units.join('') || '');">
       </select>
 
       <button> Add </button>
@@ -63,13 +62,16 @@
     <h3> Unit Editor </h3>
 
     <label>Load Existing Unit</label>
-    <select yo-yoBind = "let units = [];
+    <select 
+      yo-onChange ="unitEdit.Uid"
+      yo-yoBind = "let units = [];
           let unitList = dataEntries.units;
-
+          
+          units.push('<option value=null> - Create New - </option>');
           for(let i = 0; i < unitList.length; i++)
             {
             let unit = unitList[i];
-            units.push(unit ? '<option>test</option>' : ''  );
+            units.push(unit ? '<option value='+ unitList[i].Uid +'>'+ unitList[i].Name +'</option>' : ''  );
             }
           return(units.join('') || '');"        ">
       </select>
@@ -81,9 +83,22 @@
     <label>Unit Name:</label>
     <input yo-onChange ="unitEdit.Name" type="text">
 
+    <p>
+      <label>Unit Health:</label>
+      <input yo-onChange ="unitEdit.Health" type="number" type="text">
+    </p>
+    <p>
+      <label>Unit Agility:</label>
+      <input yo-onChange ="unitEdit.Agility" type="number" type="text">
+    </p>
+    <p>
+      <label>Unit Movement:</label>
+      <input yo-onChange ="unitEdit.Movement" type="number" type="text">
+    </p>
+
     <hr>
     <p>
-      <button yo-onClick="console.log(factionEdit);" type="submit">
+      <button yo-onClick="UpsertUnit" type="submit">
         Save
       </button>
     </p>

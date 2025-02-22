@@ -15,15 +15,13 @@ let defaultState =
     { key: 'chatMessages', value: new Array(10).fill(null)},
     { key: 'outGoingChat', value: '' },
     { key: 'dataEditorOption', value: 'faction' },
-
-    { key: 'factionEdit', value: { Uid : '', Name : '', StartingUnits:[] } },
-    { key: 'unitEdit', value: { Uid : '', Name : '' } },
-    
+    { key: 'unitEdit', value: { Uid : '', Name : '', Health : '0', Agility : '0', Movement: '0' } },
     { key: 'dataEntries', value: 
       {
       factionData: 
         { 
-          selectedFaction: null, factions:[]
+          selectedFaction:  { Uid : '', Name : '', StartingUnits:[] },
+          factions: []
         }, 
       units:[] 
       }
@@ -33,15 +31,29 @@ let defaultState =
 let dataEditorTriggers = 
   [
     {
-      path: "factionEdit.Uid",
+      path: "dataEntries.factionData.selectedFaction.Uid",
       trigger: function() 
         {
-        let currentFaction = this.state.dataEntries.factionData.factions.find(x => x.Uid == this.state.factionEdit.Uid);
+        let currentFaction = this.state.dataEntries.factionData.factions.find(
+          x => x.Uid == this.state.dataEntries.factionData.selectedFaction.Uid);
+        
         if(!currentFaction)
           {
           currentFaction = {Uid : '', Name: '', StartingUnits: []};
           }
-        this.UpdateState("factionEdit", currentFaction);
+        this.UpdateState("dataEntries.factionData.selectedFaction", currentFaction);
+        }
+    },
+    {
+      path: "unitEdit.Uid",
+      trigger: function() 
+        {
+        let currentUnit = this.state.dataEntries.units.find(x => x.Uid == this.state.unitEdit.Uid);
+        if(!currentUnit)
+          {
+          currentUnit = {Uid : '', Name: '0', Health: '0', Agility : '0', Movement: '0'};
+          }
+        this.UpdateState("unitEdit", currentUnit);
         }
     }
   ];

@@ -11,7 +11,14 @@ let requests = {
   CreateFaction : async (requestBody, callback) => {
   await request.ServerPOST("/api/faction/create", requestBody, (request) =>
     {
-    console.log(request);
+    callback(request);
+    });
+  },
+
+  DeleteFaction : async (requestBody, callback) => {
+  await request.ServerPOST("/api/faction/delete", requestBody, (request) =>
+    {
+    callback(request);
     });
   },
 
@@ -26,6 +33,13 @@ let requests = {
 
   GetUnitList : async (callback) => {
   await request.ServerGET("/api/units/GetAll" , (request) =>
+    {
+    callback(request);
+    });
+  },
+
+  CreateUnit : async (requestBody, callback) => {
+  await request.ServerPOST("/api/units/create", requestBody, (request) =>
     {
     callback(request);
     });

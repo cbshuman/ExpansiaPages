@@ -6,13 +6,13 @@ let actions =
       {
       console.log(this.state.dataEntries.factionData.selectedFaction);
       let faction = this.state.dataEntries.factionData.selectedFaction;
-      if(!faction.uid && faction.Name)
+      if(!faction.Uid && faction.Name)
         {
         serverRequests.CreateFaction(faction, (createResponse) => 
           { 
           if(createResponse.code != "Success")
             {
-            console.log("Error creating faction: " + createResponse.code);
+            console.log("Error creating faction: " + createResponse.message);
             }
 
           serverRequests.GetFactions((response) => 
@@ -22,6 +22,23 @@ let actions =
             this.UpdateState("dataEntries.factionData.selectedFaction",faction)
             });
           });      
+        }
+      else if(faction.Name)
+        {
+        serverRequests.UpdateFaction(faction, (createResponse) => 
+          { 
+          if(createResponse.code != "Success")
+            {
+            console.log("Error creating faction: " + createResponse.message);
+            }
+
+          serverRequests.GetFactions((response) => 
+            {
+            this.UpdateState("dataEntries.factionData.factions",response);
+            faction.Uid = createResponse.Uid;
+            this.UpdateState("dataEntries.factionData.selectedFaction",faction)
+            });
+          }); 
         }
       },
 
@@ -34,7 +51,7 @@ let actions =
           {
           if(deleteResponse.code != "Success")
             {
-            console.log("Error creating faction: " + deleteResponse.code);
+            console.log("Error creating faction: " + deleteResponse.message);
             return;
             }
 
@@ -45,6 +62,18 @@ let actions =
             this.UpdateState("dataEntries.factionData.selectedFaction",faction)
             });
           });
+        }
+      },
+    AddUnitToFaction()
+      {
+      let unit = this.state.dataEntries.uiData.factionRecuitUnitSelection;
+      if(unit)
+        {
+        if(!this.state.dataEntries.factionData.selectedFaction.StartingUnits.find(x => x == unit))
+          {
+          let unitList = [...this.state.dataEntries.factionData.selectedFaction.StartingUnits, unit];
+          this.UpdateState("dataEntries.factionData.selectedFaction.StartingUnits", unitList);
+          }
         }
       },
     UpsertUnit : function()

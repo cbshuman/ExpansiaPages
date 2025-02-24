@@ -15,6 +15,13 @@ let requests = {
     });
   },
 
+  UpdateFaction : async (requestBody, callback) => {
+  await request.ServerPOST("/api/faction/update", requestBody, (request) =>
+    {
+    callback(request);
+    });
+  },
+
   DeleteFaction : async (requestBody, callback) => {
   await request.ServerPOST("/api/faction/delete", requestBody, (request) =>
     {

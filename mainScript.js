@@ -14,15 +14,23 @@ let defaultState =
     { key: 'gameList', value: [] },
     { key: 'chatMessages', value: new Array(10).fill(null)},
     { key: 'outGoingChat', value: '' },
-    { key: 'dataEditorOption', value: 'faction' },
     { key: 'unitEdit', value: { Uid : '', Name : '', Health : '0', Agility : '0', Movement: '0' } },
-    { key: 'dataEntries', value: 
+    { key: 'dataEntries', 
+      value: 
       {
+      uiData:
+        {
+        dataEditorOption: 'faction',
+        factionRecuitUnitSelection : '',
+        },
       factionData: 
         { 
-          selectedFaction:  { Uid : '', Name : '', StartingUnits:[] },
-          factions: []
-        }, 
+        selectedFaction:  { Uid : '', Name : '', StartingUnits:[] },
+        factions: []
+        },
+      unitData:
+        {
+        },
       units:[] 
       }
     },

@@ -3,14 +3,14 @@
 
   <p>
     Editor :
-    <select yo-onChange="dataEditorOption" name="option">
+    <select yo-onChange="dataEntries.uiData.dataEditorOption" name="option">
       <option value = "faction"> Factions </option>
       <option value = "units"> Units </option>
       <option value = "dice"> Dice </option>
     </select>
   </p>
 
-  <div  yo-if="dataEditorOption == 'faction'}}">
+  <div yo-if="dataEntries.uiData.dataEditorOption == 'faction'}}">
     <h3> Faction Editor </h3>
     <label>Load Existing Faction</label> 
     <select
@@ -37,7 +37,9 @@
 
     <p>
       <label>Recruitable Units</label>
-      <select yo-yoBind = "let units = [];
+      <select 
+        yo-onChange = "dataEntries.uiData.factionRecuitUnitSelection"
+        yo-yoBind = "let units = [];
           let unitList = [...dataEntries.units];
 
           for(let i = 0; i < unitList.length; i++)
@@ -47,8 +49,32 @@
             }
           return(units.join('') || '');">
       </select>
+      
+      <button yo-onClick="AddUnitToFaction"> Add </button>
+      
+      <div yo-yoBind="
+        if(!dataEntries.factionData.selectedFaction.StartingUnits)
+          {
+          return('<p> No Units Selected </p>');
+          }
 
-      <button> Add </button>
+        let selectedUnits = dataEntries.factionData.selectedFaction.StartingUnits; 
+        let unitList = [];
+        
+        for(let i = 0; i < selectedUnits.length; i++)
+          {
+          unitList.push(dataEntries.units.find(x => x.Uid == selectedUnits[i]));
+          }
+
+        let units = [];
+
+        for(let i = 0; i < unitList.length; i++)
+          {
+          let unit = unitList[i];
+          units.push(unit ? '<option value='+ unitList[i].Uid +'>'+ unitList[i].Name +'</option>' : ''  );
+          }
+        return((units.join('') || ''));">
+      </div>
     </p>
     <p>
     <hr>
@@ -58,7 +84,7 @@
     </p>
   </div>
 
-  <div yo-if="{{dataEditorOption == 'units'}}">
+  <div yo-if="{{dataEntries.uiData.dataEditorOption == 'units'}}">
     <h3> Unit Editor </h3>
 
     <label>Load Existing Unit</label>
@@ -104,7 +130,7 @@
     </p>
   </div>
 
-  <div yo-if="{{dataEditorOption == 'dice'}}">
+  <div yo-if="{{dataEntries.uiData.dataEditorOption == 'dice'}}">
     Dice  
     <p>
       <button yo-onClick="console.log(factionEdit);" type="submit">

@@ -61,9 +61,8 @@ export async function OpenWebSocket(websocketCallback, disconnectedCallback,
           }
       });
 
-    connectedCallback();
+    connectedCallback(writer);
     listen();
-    return(writer);
     }
   catch(error)
     {

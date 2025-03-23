@@ -91,7 +91,7 @@ let yoyoComponents =
   ];
 
 
-let socketWriter;
+let socketWriter = new WebSocketWriter();
 let socketReader = new webSocketReader(yoyoApp, () => 
   {
   socketWriter.SetClientUid(yoyoApp.GetStateValue("clientUid"));
@@ -108,8 +108,9 @@ requests.serverAddress = "/"
 let pages = [];
 let components = [];
 
-let getServerDetails = async () =>
+let getServerDetails = async (writer) =>
   {
+  socketWriter.SetWriter(writer);
   await ServerRequests.GetServerName((request) => 
     {
     yoyoApp.UpdateState("serverName", request.ServerName)
@@ -122,6 +123,19 @@ let getServerDetails = async () =>
   await ServerRequests.GetUnitList((response) => {
     yoyoApp.UpdateState("dataEntries.units", response)
     });
+  }
+
+let handleDisconnect = () => 
+  {
+  let currentMessages = yoyoApp.GetStateValue("chatMessages");
+    
+  if(currentMessages.length >= 10)
+    {
+    currentMessages.shift();
+    }
+
+  currentMessages.push({ Sender: "System", Text: "Server disconnected! Reconnecting . . ."});
+  yoyoApp.UpdateState("chatMessages", currentMessages);
   }
 
 let GetYoyoPages = async () => 
@@ -147,20 +161,8 @@ let GetYoyoPages = async () =>
   let writer = await websocket.OpenWebSocket((response) => 
     {
     socketReader.HandleWebSocketResponse(response);
-    }, () => {
-    let currentMessages = yoyoApp.GetStateValue("chatMessages");
-    
-    if(currentMessages.length >= 10)
-      {
-      currentMessages.shift();
-      }
+    },handleDisconnect ,getServerDetails);
 
-    currentMessages.push({ Sender: "System", Text: "Server disconnected! Reconnecting . . ."});
-    yoyoApp.UpdateState("chatMessages", currentMessages);
-    },getServerDetails);
-
-  socketWriter = new WebSocketWriter(writer);
-  
   yoyoApp.UpdateState("socketWriter", socketWriter);
   }
 

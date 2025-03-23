@@ -1,7 +1,7 @@
 let serverAddress = '';
 let globalHeaders = {};
 
-async function ServerGET(path, callback)
+async function ServerGET(path, callback, errorCallback)
   {
   await fetch(serverAddress + path, { headers : globalHeaders })
       .then(response => {
@@ -17,33 +17,45 @@ async function ServerGET(path, callback)
           }
       })
       .then(callback)
-      .catch(error => console.error("Error:", error));
+      .catch(error => 
+        {
+        if(errorCallback)
+          {
+          errorCallback(error);
+          }
+        });
   }
 
-async function ServerPOST(path, body, callback) 
+async function ServerPOST(path, body, callback, errorCallback) 
+  {
+  await fetch(serverAddress + path, 
     {
-    await fetch(serverAddress + path, 
-        {
-        method: "POST",
-        headers: { ...globalHeaders,"Content-Type": "application/json" },
-        body: JSON.stringify(body)
-        })
+    method: "POST",
+    headers: { ...globalHeaders,"Content-Type": "application/json" },
+    body: JSON.stringify(body) 
+    })
     .then(response => 
-        {
-        const contentType = response.headers.get("content-type");
+      {
+      const contentType = response.headers.get("content-type");
 
-        if (contentType && contentType.includes("application/json")) 
-          {
-          return response.json();
-          } 
-        else 
-          {
-          return response.text();
-          }
-        })
+      if (contentType && contentType.includes("application/json")) 
+        {
+        return response.json();
+        } 
+      else 
+        {
+        return response.text();
+        }
+      })
     .then(callback)
-    .catch(error => console.error("Error:", error));
-}
+    .catch(error => 
+      {
+      if(errorCallback)
+        {
+        errorCallback(error);
+        }
+      });
+    }
 
 
 export default { serverAddress, globalHeaders, ServerGET, ServerPOST }

@@ -2,9 +2,9 @@ import MessageType from "./MessageType.js"
 
 class WebSocketWriter
   {
-  constructor(writer)
+  constructor()
     {
-    this.writer = writer;
+    this.writer = null;
     this.clientUid = "";
     }
 
@@ -22,6 +22,11 @@ class WebSocketWriter
     Message : ""
     };
   }
+
+  SetWriter(writer)
+    {
+    this.writer = writer;
+    }
 
   SendChatMessage(message)
     {

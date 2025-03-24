@@ -4,6 +4,7 @@ const MessageType =
   disconnect : 0,
   connectionResponse : 2,
   clientMessage : 4,
+  clientSetName : 8,
   getDataRequest: 32,
   returnDataRequest : 64,
   }

@@ -8,7 +8,11 @@ class WebSocketWriter
     this.clientUid = "";
     }
 
-  SetClientUid(uid) { this.clientUid = uid;}
+  SetClientUid(uid) 
+    { 
+    this.clientUid = uid;
+    this.SendName("Admin");
+    }
 
   SendMessageToServer(input)
     {
@@ -28,9 +32,15 @@ class WebSocketWriter
     this.writer = writer;
     }
 
+  SendName(name)
+    {
+    let request = this.CreateSocketMessage(MessageType.clientSetName);
+    request.Message = name;
+    this.SendMessageToServer(request); 
+    }
+
   SendChatMessage(message)
     {
-    console.log(message);
     let request = this.CreateSocketMessage(MessageType.clientMessage);
     request.Message = JSON.stringify({Sender:'Server', Text:message })
     this.SendMessageToServer(request);

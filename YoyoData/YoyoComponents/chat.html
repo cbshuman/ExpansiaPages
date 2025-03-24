@@ -14,7 +14,6 @@
     <input yo-onChange ="outGoingChat" />
     <button yo-onclick="@if(this.state.outGoingChat)
                           {
-                          console.log(this);
                           this.actions.SendChatMessage(this.state.outGoingChat);
                           this.UpdateState('outGoingChat','');
                           }">

@@ -1,6 +1,6 @@
 import serverRequests from '../../js/ServerCommunication/ServerRequests.js'
 
-let actions = 
+let actions = (webSocketWriter) => { return( 
     {
     UpsertFaction : function() 
       {
@@ -76,6 +76,7 @@ let actions =
           }
         }
       },
+
     UpsertUnit : function()
       {
       let unit = this.state.unitEdit;
@@ -103,7 +104,13 @@ let actions =
             });
           });      
         }
+      },
+
+    SendChatMessage : function(message)
+      {
+      webSocketWriter.SendChatMessage(message);
       }
-    }
+    });
+  }
 
 export default actions;

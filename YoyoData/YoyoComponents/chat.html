@@ -14,7 +14,8 @@
     <input yo-onChange ="outGoingChat" />
     <button yo-onclick="@if(this.state.outGoingChat)
                           {
-                          this.state.socketWriter.SendChatMessage(this.state.outGoingChat);
+                          console.log(this);
+                          this.actions.SendChatMessage(this.state.outGoingChat);
                           this.UpdateState('outGoingChat','');
                           }">
       Send Chat 

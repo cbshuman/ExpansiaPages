@@ -30,6 +30,7 @@ class WebSocketWriter
 
   SendChatMessage(message)
     {
+    console.log(message);
     let request = this.CreateSocketMessage(MessageType.clientMessage);
     request.Message = JSON.stringify({Sender:'Server', Text:message })
     this.SendMessageToServer(request);

@@ -66,9 +66,7 @@ let dataEditorTriggers =
     }
   ];
 
-
-
-let yoyoApp = new yoyo(defaultState, actions);
+let yoyoApp;
 
 let yoyoPages = 
   [
@@ -99,10 +97,11 @@ let socketReader = new webSocketReader(yoyoApp, () =>
   socketWriter.RequestCurrentPlayerList();
   });
 
+yoyoApp = new yoyo(defaultState, actions(socketWriter));
+
 console.log(yoyoApp);
 
 socketReader.yoyo = yoyoApp;
-
 requests.serverAddress = "/"
 
 let pages = [];
